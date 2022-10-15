@@ -1,6 +1,4 @@
-// module.exports = { extends: ['@commitlint/config-conventional'] };
-
-
+// A template from Alex Eagleson's tutorial on youtube. Explains all details.
 
 // build: Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)
 // ci: Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)
@@ -13,42 +11,45 @@
 // test: Adding missing tests or correcting existing tests
 
 module.exports = {
-    extends: ['@commitlint/config-conventional'],
-    rules: {
-      'body-leading-blank': [1, 'always'],
-      'body-max-line-length': [2, 'always', 100],
-      'footer-leading-blank': [1, 'always'],
-      'footer-max-line-length': [2, 'always', 100],
-      'header-max-length': [2, 'always', 100],
-      'scope-case': [2, 'always', 'lower-case'],
-      'subject-case': [
-        2,
-        'never',
-        ['sentence-case', 'start-case', 'pascal-case', 'upper-case'],
+  extends: ['@commitlint/config-conventional'],
+  rules: {
+    'body-leading-blank': [1, 'always'],
+    'body-max-line-length': [2, 'always', 100],
+    'footer-leading-blank': [1, 'always'],
+    'footer-max-line-length': [2, 'always', 100],
+    'header-max-length': [2, 'always', 100],
+    'scope-case': [2, 'always', 'lower-case'],
+    'subject-case': [
+      2,
+      'never',
+      ['sentence-case', 'start-case', 'pascal-case', 'upper-case'],
+    ],
+    'subject-empty': [2, 'never'],
+    'subject-full-stop': [2, 'never', '.'],
+    'type-case': [2, 'always', 'lower-case'],
+    'type-empty': [2, 'never'],
+    'type-enum': [
+      2,
+      'always',
+      [
+        'build',
+        'chore',
+        'ci',
+        'docs',
+        'feat',
+        'fix',
+        'perf',
+        'refactor',
+        'revert',
+        'style',
+        'test',
+        'translation',
+        'security',
+        'changeset',
       ],
-      'subject-empty': [2, 'never'],
-      'subject-full-stop': [2, 'never', '.'],
-      'type-case': [2, 'always', 'lower-case'],
-      'type-empty': [2, 'never'],
-      'type-enum': [
-        2,
-        'always',
-        [
-          'build',
-          'chore',
-          'ci',
-          'docs',
-          'feat',
-          'fix',
-          'perf',
-          'refactor',
-          'revert',
-          'style',
-          'test',
-          'translation',
-          'security',
-          'changeset',
-        ],
-      ],
-    },
-  };
+    ],
+  },
+};
+
+// A template from the commitlint website, but doesnt include any details.
+// module.exports = { extends: ['@commitlint/config-conventional'] };
