@@ -1,6 +1,12 @@
 import { IBaseTemplate } from './BaseTemplate';
 
+// IBaseTemplate = {
+//   sampleTextProp: 'Hello world!',
+// };
+// const base = IBaseTemplate;
+
 IBaseTemplate.sampleTextProp = 'Hello Worms!';
+
 const base = IBaseTemplate;
 
 export const mockBaseTemplateProps = {
