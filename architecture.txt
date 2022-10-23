@@ -1,0 +1,18 @@
+
+// https://sampotter.me/tech/how-not-to-do-layouts-in-nextjs
+// https://adamwathan.me/2019/10/17/persistent-layout-patterns-in-nextjs/
+// https://nextjs.org/docs/basic-features/layouts
+
+// api routes
+
+// authentication / next auth
+
+// data base / prisma / orm / postgres / supabase / mongodb
+// Prisma - Nextjs
+// https://www.youtube.com/watch?v=FMnlyi60avU
+// Prisma - Mongodb
+// https://www.youtube.com/watch?v=b4nxOv91vWI
+
+// internationalization
+
+// monorepo / yarn works bases? / turbo repo / nx
