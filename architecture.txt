@@ -5,13 +5,31 @@
 
 // api routes
 
+
+
+
+
+
 // authentication / next auth
+Registration is the process of registering the user, saving new users' credentials into the database. It is independent of next-auth. You create a form, submit the form and save the form data properly into the database.
+next-auth takes over when you are logged in, in other words, you are authenticated meaning that you are already a registered, genuine user. Once you pass the security checks and successfully logged in, next-auth creates a session for the user.
 
 // data base / prisma / orm / postgres / supabase / mongodb
+
 // Prisma - Nextjs
 // https://www.youtube.com/watch?v=FMnlyi60avU
 // Prisma - Mongodb
 // https://www.youtube.com/watch?v=b4nxOv91vWI
+
+// Has Tutorial for persistanc Passwordless User Login
+// https://next-auth.js.org/tutorials
+// this is that tutorial
+// https://alterclass.io/tutorials/magic-link-authentication-in-nextjs-with-nextauth-and-fauna
+
+
+
+
+
 
 // internationalization
 
