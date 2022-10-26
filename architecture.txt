@@ -1,21 +1,64 @@
-
+RANDOM LINKS FOR NEXT.JS LAYOUTS
 // https://sampotter.me/tech/how-not-to-do-layouts-in-nextjs
 // https://adamwathan.me/2019/10/17/persistent-layout-patterns-in-nextjs/
 // https://nextjs.org/docs/basic-features/layouts
 
-// api routes
 
 
+API ROUTES:
+-nothing planned yet
+
+ROLE BASED AUTHENTICATION & AUTHORIZATION:
+AUTHENTICATION & AUTHORIZATION
+STEP 1
+Add Next-Auth
+
+https://next-auth.js.org/getting-started/example
+
+STEP 2
+Connect with Github
+
+https://next-auth.js.org/providers/github
+
+STEP 3
+Build protected pages / api / routes
+
+STEP 4
+Connect to MongoDB
+
+https://hevodata.com/learn/next-js-mongodb-connection/
+
+STEP 5
+Add MongoDB adapter
+- or -
+Add Prisma w/ MongoDB database connector
+
+https://next-auth.js.org/adapters/mongodb
+https://www.prisma.io/docs/concepts/database-connectors/mongodb
+
+STEP 6
+Add "Register with credentials"
+
+https://next-auth.js.org/providers/credentials
+
+STEP 7
+Add Passwordless authentication (magic links)
+
+https://www.youtube.com/watch?v=GPBD3acOx_M
+
+STEP 8
+Add connect with all other providers (Facebook, Twitter, etc...)
+
+BUILD AND ASSIGN ROLES
+Design User Roles and Permision
+
+- Store User Roles
+- Assign User Roles
+- Edit User Roles
+    -https://www.reddit.com/r/nextjs/comments/reofzj/update_user_object_inside_nextauth_session/
 
 
-
-
-// authentication / next auth
-Registration is the process of registering the user, saving new users' credentials into the database. It is independent of next-auth. You create a form, submit the form and save the form data properly into the database.
-next-auth takes over when you are logged in, in other words, you are authenticated meaning that you are already a registered, genuine user. Once you pass the security checks and successfully logged in, next-auth creates a session for the user.
-
-// data base / prisma / orm / postgres / supabase / mongodb
-
+Random Links for ROLE BASED AUTHENTICATION & AUTHORIZATION
 // Prisma - Nextjs
 // https://www.youtube.com/watch?v=FMnlyi60avU
 // Prisma - Mongodb
@@ -23,14 +66,16 @@ next-auth takes over when you are logged in, in other words, you are authenticat
 
 // Has Tutorial for persistanc Passwordless User Login
 // https://next-auth.js.org/tutorials
-// this is that tutorial
+// This is that tutorial
 // https://alterclass.io/tutorials/magic-link-authentication-in-nextjs-with-nextauth-and-fauna
 
+Random Explination of Next-Auth & User Registration
+Registration is the process of registering the user, saving new users' credentials into the database. It is independent of next-auth. You create a form, submit the form and save the form data properly into the database.
+next-auth takes over when you are logged in, in other words, you are authenticated meaning that you are already a registered, genuine user. Once you pass the security checks and successfully logged in, next-auth creates a session for the user.
+// data base / prisma / orm / postgres / supabase / mongodb
 
 
+INTERNATIONALIZATION:
 
 
-
-// internationalization
-
-// monorepo / yarn works bases? / turbo repo / nx
+monorepo / yarn works bases? / turbo repo / nx:
