@@ -1,3 +1,4 @@
+import { useSession } from 'next-auth/react';
 import CatCard from '../components/cards/cat/CatCard';
 import { mockCatCardProps } from '../components/cards/cat/CatCard.mocks';
 import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
@@ -5,9 +6,12 @@ import SidebarLayout from '../components/layouts/sidebar/SidebarLayout';
 import styles from '../styles/Home.module.css';
 
 export default function Home() {
+  const { data: session, status } = useSession();
+
   return (
     <section className={styles.main}>
       <h1 className={styles.title}>
+        {session ? `${session.user.name}, ` : ''}
         Welcome to <a href="https://nextjs.org">Next.js!</a>
       </h1>
       <CatCard {...mockCatCardProps.base} />
