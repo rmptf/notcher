@@ -14,7 +14,7 @@ export async function getServerSideProps(context) {
       redirect: {
         //Tutorial recomends using an env var instead of hardcoding url
         destination: `/api/auth/signin?callbackUrl=http://localhost:3000/blog`,
-        premanent: false,
+        permanent: false,
       },
     };
   }

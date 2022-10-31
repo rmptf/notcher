@@ -59,6 +59,8 @@ Design User Roles and Permision
 
 
 Random Links for ROLE BASED AUTHENTICATION & AUTHORIZATION
+// EXAMPLE NEXT PROJECT
+// https://github.com/vercel/next.js/tree/canary/examples
 // Prisma - Nextjs
 // https://www.youtube.com/watch?v=FMnlyi60avU
 // Prisma - Mongodb
