@@ -1,11 +1,24 @@
 import { MongoDBAdapter } from '@next-auth/mongodb-adapter';
+import { ObjectId } from 'mongodb';
 import NextAuth from 'next-auth';
 import DiscordProvider from 'next-auth/providers/discord';
 import GithubProvider from 'next-auth/providers/github';
-// import dbConnect from '../../../lib/dbConnect';
+import { dbConnect } from '../../../lib/dbConnect';
 import clientPromise from '../../../lib/mongodb';
 
-// export const authOptions = {
+// Move this out of []...nextauth]
+async function getRoleFromDB(userId, req, res) {
+  const { db } = await dbConnect();
+  try {
+    const user = await db
+      .collection('users')
+      .findOne({ _id: ObjectId(userId) });
+    return user.role;
+  } catch (err) {
+    res.status(500).send({ error: 'failed to fetch data' });
+  }
+}
+
 const createOptions = (req) => ({
   providers: [
     GithubProvider({
@@ -20,7 +33,6 @@ const createOptions = (req) => ({
         };
       },
     }),
-
     DiscordProvider({
       clientId: process.env.DISCORD_CLIENT_ID,
       clientSecret: process.env.DISCORD_CLIENT_SECRET,
@@ -34,107 +46,73 @@ const createOptions = (req) => ({
       },
     }),
   ],
-
   theme: {
     colorScheme: 'light',
   },
-
   // pages: {
   //   signIn: '/auth',
   // },
-
   debug: process.env.NODE_ENV === 'development',
-
   adapter: MongoDBAdapter(clientPromise),
-
   session: {
     strategy: 'jwt',
   },
-
   jwt: {
     secret: process.env.NEXTAUTH_JWT_SECRET,
   },
-
   secret: process.env.NEXTAUTH_SECRET,
 
-  // Next-Auth Callbacks
-  // https://next-auth.js.org/configuration/callbacks
-
   callbacks: {
-    async session({ token, ...params }) {
-      if (req.url === '/api/auth/session?update') {
-        // hit the DB and return token with updated values. e.g.:
-        token.name = 'Updated Mr. Johnson';
-        console.log('-----0909-----');
-        res.redirect(307, '/');
-      }
-      // return token;
-    },
-    // async jwt({ token, user, account, profile, isNewUser }) {
-    //   console.log('-----------JWT All Objects token-----------');
-    //   console.log(token);
-
-    //   console.log('-----------JWT All Objects user-----------');
-    //   console.log(user);
-
-    //   console.log('-----------JWT All Objects account-----------');
-    //   console.log(account);
-
-    //   console.log('-----------JWT All Objects profile-----------');
-    //   console.log(profile);
-
-    //   console.log('-----------JWT All Objects isNewUser-----------');
-    //   console.log(isNewUser);
-    // },
-
     async jwt({ token, user }) {
-      // console.log('-----------JWT token1-----------');
-      // console.log(token);
-      // console.log('-----------JWT user1-----------');
-      // console.log(user);
-
-      if (req.url == '/api/auth/session?update') {
-        console.log('BIGTITS');
-        console.log('-----------JWT user1-----------');
-        console.log(user);
-        token.role = 'RESET ROLE';
-      }
-
       if (user) {
+        console.log('Setting User Role: ' + user.role);
         token.role = user.role;
-        // console.log('-----------JWT token2-----------');
-        // console.log(token);
-        // console.log('-----------JWT user2-----------');
-        // console.log(user);
+      }
+      // Make sure this doesnt have security issues
+      if (req.url === '/api/auth/session?update') {
+        const userRole = await getRoleFromDB(token.sub);
+        console.log('Updating User Role: ' + userRole);
+        token.role = userRole;
+        // Figure out redirect
+        // res.redirect(307, '/');
       }
       return token;
     },
 
     async session({ session, token, user }) {
-      // console.log('-----------SESS session1-----------');
-      // console.log(session);
-      // console.log('-----------SESS token1-----------');
-      // console.log(token);
       if (session.user) {
         session.user.role = token.role;
       }
-      console.log('-----------SESS session2-----------');
-      console.log(session);
-      // if (req.url == '/api/auth/session?update') {
-      //   console.log('BIGTITS');
-      // }
-      // console.log('-----------req url-----------');
-      // console.log(req.url);
       return session;
     },
   },
-
-  // };
-  // export default NextAuth(authOptions);
 });
 export default async (req, res) => {
   return NextAuth(req, res, createOptions(req));
 };
+
+// --------------------------------------------------------------------------------------------------------------------------------------------
+
+// Callback that lists all values JWT understands:
+
+// async jwt({ token, user, account, profile, isNewUser }) {
+//   console.log('-----------JWT All Objects token-----------');
+//   console.log(token);
+
+//   console.log('-----------JWT All Objects user-----------');
+//   console.log(user);
+
+//   console.log('-----------JWT All Objects account-----------');
+//   console.log(account);
+
+//   console.log('-----------JWT All Objects profile-----------');
+//   console.log(profile);
+
+//   console.log('-----------JWT All Objects isNewUser-----------');
+//   console.log(isNewUser);
+// },
+
+// --------------------------------------------------------------------------------------------------------------------------------------------
 
 // --------------------------------------------------------------------------------------------------------------------------------------------
 
