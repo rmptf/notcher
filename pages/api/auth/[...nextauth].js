@@ -7,17 +7,17 @@ import { dbConnect } from '../../../lib/dbConnect';
 import clientPromise from '../../../lib/mongodb';
 
 // Move this out of []...nextauth]
-async function getRoleFromDB(userId, req, res) {
-  const { db } = await dbConnect();
-  try {
-    const user = await db
-      .collection('users')
-      .findOne({ _id: ObjectId(userId) });
-    return user.role;
-  } catch (err) {
-    res.status(500).send({ error: 'failed to fetch data' });
-  }
-}
+// async function getRoleFromDB(userId, req, res) {
+//   const { db } = await dbConnect();
+//   try {
+//     const user = await db
+//       .collection('users')
+//       .findOne({ _id: ObjectId(userId) });
+//     return user.role;
+//   } catch (err) {
+//     res.status(500).send({ error: 'failed to fetch data' });
+//   }
+// }
 
 const createOptions = (req) => ({
   providers: [
@@ -63,18 +63,24 @@ const createOptions = (req) => ({
   secret: process.env.NEXTAUTH_SECRET,
 
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, res }) {
       if (user) {
         console.log('Setting User Role: ' + user.role);
         token.role = user.role;
       }
       // Make sure this doesnt have security issues
       if (req.url === '/api/auth/session?update') {
-        const userRole = await getRoleFromDB(token.sub);
-        console.log('Updating User Role: ' + userRole);
+        const { db } = await dbConnect();
+        const user = await db
+          .collection('users')
+          .findOne({ _id: ObjectId(token.sub) });
+        const userRole = user.role;
+        // const userRole = await getRoleFromDB(token.sub);
+        console.log('Update User Role: ' + userRole);
         token.role = userRole;
         // Figure out redirect
         // res.redirect(307, '/');
+        // };
       }
       return token;
     },

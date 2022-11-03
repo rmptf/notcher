@@ -1,20 +1,16 @@
-import { ObjectId } from 'mongodb';
+// import { getSession } from 'next-auth/react';
 import { dbConnect } from '../../../lib/dbConnect';
 
 export default async function handler(req, res) {
   const { db } = await dbConnect();
   try {
-    // const { role } = req.body;
     const { param } = req.query;
-    console.log('-----------req.body-----------');
-    console.log(req.body);
-    // Set dynamically
-    const id = '635e8531c6aee5acdc9088ed';
+    const email = param[1];
     await db.collection('users').updateOne(
-      { _id: ObjectId(id) },
+      { email: email },
       {
         $set: {
-          role: param,
+          role: param[0],
         },
       }
     );
@@ -23,3 +19,27 @@ export default async function handler(req, res) {
     res.status(500).send({ error: 'failed to fetch data' });
   }
 }
+
+// export async function getServerSideProps(context) {
+//   const session = await getSession(context);
+
+//   if (!session) {
+//     return {
+//       redirect: {
+//         //Tutorial recomends using an env var instead of hardcoding url
+//         // destination: `/api/auth/signin?callbackUrl=http://localhost:3000/blog`,
+//         destination: '/api/auth/session?update',
+//         permanent: false,
+//       },
+//     };
+//   }
+
+//   // console.log(session);
+//   return {
+//     props: {
+//       blogsdata: session
+//         ? 'List of 100 personalized blogs'
+//         : 'List of free blogs',
+//     },
+//   };
+// }

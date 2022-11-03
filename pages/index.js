@@ -7,7 +7,13 @@ import styles from '../styles/Home.module.css';
 export default function Home() {
   const { data: session, status } = useSession();
 
-  const role = 'pussy';
+  const role = 'Dynamic Role';
+  let email;
+  if (session) {
+    email = session.user.email;
+  } else {
+    email = '';
+  }
 
   function logSession() {
     console.log(session);
@@ -20,15 +26,19 @@ export default function Home() {
       <h1>User Role: {session ? `${session.user.role} ` : 'No User'}</h1>
       <h1>Status: {status}</h1>
       <button>
-        <Link href={`/api/update-user/USER`}>Change role to User</Link>
+        <Link href={`/api/update-user/USER/${email}`}>Change role to User</Link>
       </button>
       <br></br>
       <button>
-        <Link href={`/api/update-user/ADMIN`}>Change role to Admin</Link>
+        <Link href={`/api/update-user/ADMIN/${email}`}>
+          Change role to Admin
+        </Link>
       </button>
       <br></br>
       <button>
-        <Link href={`/api/update-user/${role}`}>Change role dynamically</Link>
+        <Link href={`/api/update-user/${role}/${email}`}>
+          Change role dynamically
+        </Link>
       </button>
       <br></br>
       <button onClick={logSession}>Log Session</button>
