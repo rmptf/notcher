@@ -14,10 +14,16 @@ export default async function handler(req, res) {
         },
       }
     );
-    res.redirect(307, '/api/auth/session?update');
+    //   res.redirect(307, '/api/auth/session?update');
   } catch (err) {
     res.status(500).send({ error: 'failed to fetch data' });
   }
+
+  // await signIn('update-user', {
+  //   user: JSON.stringify({ ...user, newProperty: true }),
+  // });
+
+  // await signIn('jwt', {});
 }
 
 // export async function getServerSideProps(context) {

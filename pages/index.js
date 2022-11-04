@@ -1,4 +1,4 @@
-import { useSession } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import CatCard from '../components/cards/cat/CatCard';
 import { mockCatCardProps } from '../components/cards/cat/CatCard.mocks';
@@ -25,6 +25,7 @@ export default function Home() {
       <h1>User Email: {session ? `${session.user.email} ` : 'No User'}</h1>
       <h1>User Role: {session ? `${session.user.role} ` : 'No User'}</h1>
       <h1>Status: {status}</h1>
+      <button onClick={() => signIn('jwt')}>Sign in with JWT</button>
       <button>
         <Link href={`/api/update-user/USER/${email}`}>Change role to User</Link>
       </button>
