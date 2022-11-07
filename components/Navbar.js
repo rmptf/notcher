@@ -39,6 +39,7 @@ export default function Navbar() {
                 onClick={(e) => {
                   e.preventDefault();
                   signIn();
+                  // signIn('discord');
                 }}
               >
                 Sign In
