@@ -20,38 +20,11 @@ const createOptions = (req) => ({
   providers: [
     CredentialsProvider({
       id: 'jwt',
-      name: 'jwt',
-      credentials: {
-        // email: {
-        //   label: 'Email',
-        //   type: 'text',
-        // },
-        // password: {
-        //   label: 'Password',
-        //   type: 'password',
-        // },
-      },
-
+      credentials: {},
       async authorize(credentials) {
-        console.log(req);
-        // console.log(credentials);
         let decodedToken = await getTokenHandler(req);
-        let decodedTokenSub = decodedToken.sub;
+        // let decodedTokenSub = decodedToken.sub;
         let decodedTokenEmail = decodedToken.email;
-
-        // console.log('--------------credentials--------------');
-        // console.log(credentials);
-        // console.log('--------------/credentials--------------');
-        // console.log('--------------decodedToken--------------');
-        // console.log(decodedToken);
-        // console.log('--------------/decodedToken--------------');
-        // console.log('--------------decodedTokenSub--------------');
-        // console.log(decodedTokenSub);
-        // console.log('--------------/decodedTokenSub--------------');
-        // console.log('--------------decodedTokenEmail--------------');
-        // console.log(decodedTokenEmail);
-        // console.log('--------------/decodedTokenEmail--------------');
-
         const { db } = await dbConnect();
         const user = await db.collection('users').findOne({
           email: decodedTokenEmail,
@@ -64,7 +37,6 @@ const createOptions = (req) => ({
       clientId: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
       profile(profile) {
-        console.log(req);
         return {
           id: profile.id,
           name: profile.login,
@@ -90,9 +62,6 @@ const createOptions = (req) => ({
   theme: {
     colorScheme: 'light',
   },
-  // pages: {
-  //   signIn: '/auth',
-  // },
   debug: process.env.NODE_ENV === 'development',
   adapter: MongoDBAdapter(clientPromise),
   session: {
@@ -106,19 +75,9 @@ const createOptions = (req) => ({
   callbacks: {
     async jwt({ token, user, account, profile, isNewUser, res }) {
       if (user) {
-        console.log('Setting User Role: ' + user.role);
         token.role = user.role;
         console.log(token);
       }
-      // if (req.url === '/api/auth/session?update') {
-      // const { db } = await dbConnect();
-      // const user = await db
-      //   .collection('users')
-      //   .findOne({ _id: ObjectId(token.sub) });
-      // const userRole = user.role;
-      // console.log('Update User Role: ' + userRole);
-      // token.role = userRole;
-      // }
       return token;
     },
 
@@ -156,3 +115,16 @@ export default async (req, res) => {
 // },
 
 // --------------------------------------------------------------------------------------------------------------------------------------------
+
+// console.log('--------------credentials--------------');
+// console.log(credentials);
+// console.log('--------------/credentials--------------');
+// console.log('--------------decodedToken--------------');
+// console.log(decodedToken);
+// console.log('--------------/decodedToken--------------');
+// console.log('--------------decodedTokenSub--------------');
+// console.log(decodedTokenSub);
+// console.log('--------------/decodedTokenSub--------------');
+// console.log('--------------decodedTokenEmail--------------');
+// console.log(decodedTokenEmail);
+// console.log('--------------/decodedTokenEmail--------------');

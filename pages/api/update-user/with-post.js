@@ -5,23 +5,19 @@ export default async function handler(req, res) {
   if (req.method === 'GET') {
     // res.status(200).json(comments);
   } else if (req.method === 'POST') {
-    console.log('Im here');
-    const param1 = req.body.role1;
-    const param2 = req.body.email1;
-    console.log(param1, param2);
+    const email = req.body.email;
+    const role = req.body.role;
     const { db } = await dbConnect();
     try {
-      console.log('inside try');
       // let updatedUser = await db.collection('users').updateOne(
       await db.collection('users').updateOne(
-        { email: param2 },
+        { email: email },
         {
           $set: {
-            role: param1,
+            role: role,
           },
         }
       );
-      console.log('finished try');
       res.status(201).json('updatedUser');
       // res.status(201).json(updatedUser);
     } catch (err) {

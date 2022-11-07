@@ -1,32 +1,31 @@
 import { signIn, useSession } from 'next-auth/react';
-import Link from 'next/link';
 import CatCard from '../components/cards/cat/CatCard';
 import { mockCatCardProps } from '../components/cards/cat/CatCard.mocks';
 import styles from '../styles/Home.module.css';
 
-const updateDbThenSignIn = async (role, email) => {
+const updateDbThenSignIn = async (email, role) => {
   const response = await fetch('/api/update-user/with-post', {
     method: 'POST',
-    body: JSON.stringify({ role1: role, email1: email }),
+    body: JSON.stringify({ email: email, role: role }),
     headers: {
       'Content-Type': 'application/json',
     },
   });
-  const res = await response.json();
-  console.log(res);
   signIn('jwt', { callbackUrl: '/' });
+  const res1 = await response.json();
+  console.log(res1);
 };
 
-export default function Home(blogsdata) {
+export default function Home() {
   const { data: session, status } = useSession();
 
-  const role = 'Dynamic Role';
   let email;
   if (session) {
     email = session.user.email;
   } else {
     email = '';
   }
+  let role = 'Randomass Role';
 
   function logSession() {
     console.log(session);
@@ -39,30 +38,16 @@ export default function Home(blogsdata) {
       <h1>User Role: {session ? `${session.user.role} ` : 'No User'}</h1>
       <h1>Status: {status}</h1>
 
-      <button onClick={() => updateDbThenSignIn(role, email)}>
-        Update BD then sign in then redirect.
+      <button onClick={() => updateDbThenSignIn(email, 'User')}>
+        Change role to User then sign in then redirect.
       </button>
       <br></br>
-      <button onClick={() => signIn('jwt', { callbackUrl: '/blog' })}>
-        Sign in with w/ redirect
+      <button onClick={() => updateDbThenSignIn(email, 'Admin')}>
+        Change role to Admin then sign in then redirect.
       </button>
       <br></br>
-      <button onClick={() => signIn('jwt')}>Sign in with JWT</button>
-      <br></br>
-      <button>
-        <Link href={`/api/update-user/USER/${email}`}>Change role to User</Link>
-      </button>
-      <br></br>
-      <button>
-        <Link href={`/api/update-user/ADMIN/${email}`}>
-          Change role to Admin
-        </Link>
-      </button>
-      <br></br>
-      <button>
-        <Link href={`/api/update-user/${role}/${email}`}>
-          Change role dynamically
-        </Link>
+      <button onClick={() => updateDbThenSignIn(email, 'Random Role')}>
+        Change role to Random Role then sign in then redirect.
       </button>
       <br></br>
       <button onClick={logSession}>Log Session</button>
