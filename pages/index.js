@@ -3,21 +3,21 @@ import CatCard from '../components/cards/cat/CatCard';
 import { mockCatCardProps } from '../components/cards/cat/CatCard.mocks';
 import styles from '../styles/Home.module.css';
 
-const updateDbThenSignIn = async (email, role) => {
-  const response = await fetch('/api/update-user/with-post', {
-    method: 'POST',
-    body: JSON.stringify({ email: email, role: role }),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-  signIn('jwt', { callbackUrl: '/' });
-  const res1 = await response.json();
-  console.log(res1);
-};
-
 export default function Home() {
   const { data: session, status } = useSession();
+
+  const submitRoleAndSignIn = async (email, role) => {
+    const response = await fetch('/api/update-user', {
+      method: 'POST',
+      body: JSON.stringify({ email: email, role: role }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    signIn('jwt', { callbackUrl: '/' });
+    const res1 = await response.json();
+    console.log(res1);
+  };
 
   let email;
   if (session) {
@@ -25,7 +25,6 @@ export default function Home() {
   } else {
     email = '';
   }
-  let role = 'Randomass Role';
 
   function logSession() {
     console.log(session);
@@ -37,17 +36,16 @@ export default function Home() {
       <h1>User Email: {session ? `${session.user.email} ` : 'No User'}</h1>
       <h1>User Role: {session ? `${session.user.role} ` : 'No User'}</h1>
       <h1>Status: {status}</h1>
-
-      <button onClick={() => updateDbThenSignIn(email, 'User')}>
-        Change role to User then sign in then redirect.
+      <button onClick={() => submitRoleAndSignIn(email, 'User')}>
+        Change role to User, SignIn, Redirect
       </button>
       <br></br>
-      <button onClick={() => updateDbThenSignIn(email, 'Admin')}>
-        Change role to Admin then sign in then redirect.
+      <button onClick={() => submitRoleAndSignIn(email, 'Admin')}>
+        Change role to Admin, SignIn, Redirect
       </button>
       <br></br>
-      <button onClick={() => updateDbThenSignIn(email, 'Random Role')}>
-        Change role to Random Role then sign in then redirect.
+      <button onClick={() => submitRoleAndSignIn(email, 'Random Role')}>
+        Change role to RandomRole, SignIn, Redirect
       </button>
       <br></br>
       <button onClick={logSession}>Log Session</button>

@@ -1,5 +1,5 @@
 // import { ObjectId } from 'mongodb';
-import { dbConnect } from '../../../lib/dbConnect';
+import { dbConnect } from '../../lib/dbConnect';
 
 export default async function handler(req, res) {
   if (req.method === 'GET') {
@@ -9,7 +9,6 @@ export default async function handler(req, res) {
     const role = req.body.role;
     const { db } = await dbConnect();
     try {
-      // let updatedUser = await db.collection('users').updateOne(
       await db.collection('users').updateOne(
         { email: email },
         {
@@ -19,7 +18,6 @@ export default async function handler(req, res) {
         }
       );
       res.status(201).json('updatedUser');
-      // res.status(201).json(updatedUser);
     } catch (err) {
       res.status(500).send({ error: 'failed to fetch data' });
     }
