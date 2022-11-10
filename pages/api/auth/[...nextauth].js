@@ -4,7 +4,6 @@ import { getToken } from 'next-auth/jwt';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import DiscordProvider from 'next-auth/providers/discord';
 import GithubProvider from 'next-auth/providers/github';
-import { dbConnect } from '../../../lib/dbConnect';
 import clientPromise from '../../../lib/mongodb';
 
 const authOptions = (req) => ({
@@ -17,7 +16,8 @@ const authOptions = (req) => ({
         let decodedToken = await getToken({ req, secret });
         // let decodedTokenSub = decodedToken.sub;
         let decodedTokenEmail = decodedToken.email;
-        const { db } = await dbConnect();
+        const client = await clientPromise;
+        const db = client.db('notcherdb');
         const user = await db.collection('users').findOne({
           email: decodedTokenEmail,
         });

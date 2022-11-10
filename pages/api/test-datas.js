@@ -1,10 +1,10 @@
-import { dbConnect2 } from '../../lib/dbConnect2';
+import { dbConnect } from '../../lib/dbConnect';
 import TestData from '../../models/TestData';
 
 export default async function handler(req, res) {
   const { method } = req;
 
-  await dbConnect2();
+  await dbConnect();
 
   switch (method) {
     case 'GET':
