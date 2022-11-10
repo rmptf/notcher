@@ -19,6 +19,16 @@ export default function Home() {
     console.log(res1);
   };
 
+  const submitTestData = async (fakeData, testData) => {
+    await fetch('/api/test-datas', {
+      method: 'POST',
+      body: JSON.stringify({ fakeData: fakeData, testData: testData }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  };
+
   let email;
   if (session) {
     email = session.user.email;
@@ -36,6 +46,10 @@ export default function Home() {
       <h1>User Email: {session ? `${session.user.email} ` : 'No User'}</h1>
       <h1>User Role: {session ? `${session.user.role} ` : 'No User'}</h1>
       <h1>Status: {status}</h1>
+      <button onClick={() => submitTestData('stuff', 'other stuff')}>
+        Submit Test Data
+      </button>
+      <br></br>
       <button onClick={() => submitRoleAndSignIn(email, 'User')}>
         Change role to User, SignIn, Redirect
       </button>
